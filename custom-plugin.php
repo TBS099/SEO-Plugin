@@ -8,53 +8,54 @@
 if (!defined('ABSPATH')) {
     echo 'ACCESS DENIED';
     exit;
-}
-else{
+} else {
 
-// creating custom metabox field
-function custom_metabox()
-{
-    add_meta_box("custom_seo_metabox", "SEO Meta", "seo_metabox_field", null, "side");
-}
-add_action('add_meta_boxes', 'custom_metabox');
-//custom metabox field
-function seo_metabox_field()
-{
+    // creating custom metabox field
+    function custom_metabox()
+    {
+        add_meta_box("custom_seo_metabox", "SEO Meta", "seo_metabox_field", null, "side");
+    }
+    add_action('add_meta_boxes', 'custom_metabox');
+    //custom metabox field
+    function seo_metabox_field()
+    {
 
-?>
-    SEO Title:<br>
-    <input type='text' name='seo-title'><br><br>
-    SEO Description:<br>
-    <input type='textarea' name='seo-description'>
-<?php
-    
-}
+        ?>
+        SEO Title:<br>
+        <input type='text' name='seo-title'><br><br>
+        SEO Description:<br>
+        <input type='textarea' name='seo-description'>
+        <?php
 
-function save_seo_data(){
-    global $post;
+    }
 
-    if (isset($_POST["seo-title"])) :
+    function save_seo_data()
+    {
+        global $post;
 
-        update_post_meta($post->ID, 'seo_title', $_POST["seo-title"]);
+        if (isset($_POST["seo-title"])):
 
-    endif;
+            update_post_meta($post->ID, 'seo_title', $_POST["seo-title"]);
 
-    if (isset($_POST["seo-description"])) :
+        endif;
 
-        update_post_meta($post->ID, 'seo_description', $_POST["seo-description"]);
+        if (isset($_POST["seo-description"])):
 
-    endif;
-}
-add_action('save_post', 'save_seo_data');
+            update_post_meta($post->ID, 'seo_description', $_POST["seo-description"]);
 
-function custom_seo_metadata() {
-    global $post;
+        endif;
+    }
+    add_action('save_post', 'save_seo_data');
 
-    $seo_description= get_post_meta($post->ID,'seo_description',true);
-    $seo_title = get_post_meta($post->ID,'seo_title',true);
-    echo '<meta name="title" content="'.$seo_title.'">';
-    echo '<meta name="description" content="'.$seo_description.'">';
-}
-add_action( 'wp_head', 'custom_seo_metadata' );
+    function custom_seo_metadata()
+    {
+        global $post;
+
+        $seo_description = get_post_meta($post->ID, 'seo_description', true);
+        $seo_title = get_post_meta($post->ID, 'seo_title', true);
+        echo '<meta name="title" content="' . $seo_title . '">';
+        echo '<meta name="description" content="' . $seo_description . '">';
+    }
+    add_action('wp_head', 'custom_seo_metadata');
 
 }
