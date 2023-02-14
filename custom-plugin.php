@@ -20,11 +20,13 @@ if (!defined('ABSPATH')) {
     function seo_metabox_field()
     {
 
+        $seo_title=get_post_meta(get_the_ID(), 'seo_title', true);
+        $seo_description=get_post_meta(get_the_ID(), 'seo_description', true);
         ?>
         SEO Title:<br>
-        <input type='text' name='seo-title'><br><br>
+        <input type='text' name='seo-title' value="<?php echo $seo_title;?>"><br><br>
         SEO Description:<br>
-        <input type='textarea' name='seo-description'>
+        <textarea name='seo-description'><?php echo $seo_description;?></textarea>
         <?php
 
     }
