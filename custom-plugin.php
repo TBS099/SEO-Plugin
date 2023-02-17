@@ -34,17 +34,11 @@ else {
         {
             $seo_title = get_post_meta(get_the_ID(), 'seo_title', true);
             $seo_description = get_post_meta(get_the_ID(), 'seo_description', true);
-            $seo_thumbnail = wp_get_attachment_image_url(get_post_meta(get_the_ID(), 'seo_attachment_id', true));
             ?>
-            <form method='post' enctype="multipart/form-data">
             SEO Title:<br>
             <input type='text' name='seo-title' value="<?php echo $seo_title; ?>"><br><br>
             SEO Description:<br>
             <textarea name='seo-description'><?php echo $seo_description; ?></textarea><br><br>
-            SEO Thumbnail:<br>
-            <?php echo '<img src="' . $seo_thumbnail . '" alt="user profile image" width="70%" height="auto">';?>
-            <input type='file' accept='image/png, image/jpeg' name='seo_thumbnail' placeholder='Update Thumbnail'><br><br>
-            </form>
             <?php
         }
 
@@ -53,29 +47,16 @@ else {
         {
             global $post;
 
-            if (isset($_POST["seo-title"])):
+            if (isset($_POST["seo-title"])){
 
                 update_post_meta($post->ID, 'seo_title', $_POST["seo-title"]);
 
-            endif;
+            }
 
-            if (isset($_POST["seo-description"])):
+            if (isset($_POST["seo-description"])){
 
                 update_post_meta($post->ID, 'seo_description', $_POST["seo-description"]);
 
-            endif;
-
-            if (!function_exists('wp_generate_attachment_metadata_2')){
-                require_once(ABSPATH . "wp-admin" . '/includes/image.php');
-                require_once(ABSPATH . "wp-admin" . '/includes/file.php');
-                require_once(ABSPATH . "wp-admin" . '/includes/media.php');
-            }
-            if ($_FILES) {
-                if ($_FILES['seo_thumbnail']['error'] !== UPLOAD_ERR_OK) {
-                    return "upload error : " . $_FILES['seo_thumbnail']['error'];
-                }
-                $attach_id = media_handle_upload( 'seo_thumbnail', get_the_ID() );
-                update_post_meta( get_the_ID(), 'seo_attachment_id', $attach_id );
             }
         }
 
@@ -86,11 +67,15 @@ else {
 
             $seo_description = get_post_meta($post->ID, 'seo_description', true);
             $seo_title = get_post_meta($post->ID, 'seo_title', true);
-            $seo_thumbnail = wp_get_attachment_image_url(get_post_meta(get_the_ID(), 'seo_attachment_id', true));
+
 
             echo '<meta name="title" content="' . $seo_title . '">';
             echo '<meta name="description" content="' . $seo_description . '">';
-            echo '<meta name="thumbnail" content="'.$seo_thumbnail.'">';
+
+            if(has_post_thumbnail()){
+                $thumbnail=get_the_post_thumbnail_url($post->ID,$size='full');
+                echo '<meta name="thumbnail" content="' . $thumbnail . '">';
+            }
         }
 
     }
