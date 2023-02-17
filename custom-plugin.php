@@ -1,6 +1,6 @@
 <?php
-//  Plugin Name: Custom SEO Title and Description
-//  Description: Plugin for a custom seo title and description
+//  Plugin Name: Custom SEO Meta
+//  Description: Plugin for a custom seo meta
 //  Author: Tanush Bikram Shah
 //  Version:1.0.0
 // Text Domain: Custom SEO Title and Description 
@@ -8,9 +8,7 @@
 if (!defined('ABSPATH')) {
     echo 'ACCESS DENIED';
     exit;
-} 
-
-else {
+} else {
 
     class seo_title_and_description
     {
@@ -18,15 +16,15 @@ else {
         //call functions
         public function __construct()
         {
-            add_action('add_meta_boxes',array($this, 'custom_metabox'));
-            add_action('save_post',array($this, 'save_seo_data'));
-            add_action('wp_head',array($this, 'custom_seo_metadata'));
+            add_action('add_meta_boxes', array($this, 'custom_metabox'));
+            add_action('save_post', array($this, 'save_seo_data'));
+            add_action('wp_head', array($this, 'custom_seo_metadata'));
         }
 
         // creating custom metabox field
         function custom_metabox()
         {
-            add_meta_box("custom_seo_metabox", "SEO Meta", array($this,"seo_metabox_field"), null, "side");
+            add_meta_box("custom_seo_metabox", "SEO Meta", array($this, "seo_metabox_field"), null, "side");
         }
 
         //custom metabox field
@@ -47,13 +45,13 @@ else {
         {
             global $post;
 
-            if (isset($_POST["seo-title"])){
+            if (isset($_POST["seo-title"])) {
 
                 update_post_meta($post->ID, 'seo_title', $_POST["seo-title"]);
 
             }
 
-            if (isset($_POST["seo-description"])){
+            if (isset($_POST["seo-description"])) {
 
                 update_post_meta($post->ID, 'seo_description', $_POST["seo-description"]);
 
@@ -72,8 +70,8 @@ else {
             echo '<meta name="title" content="' . $seo_title . '">';
             echo '<meta name="description" content="' . $seo_description . '">';
 
-            if(has_post_thumbnail()){
-                $thumbnail=get_the_post_thumbnail_url($post->ID,$size='full');
+            if (has_post_thumbnail()) {
+                $thumbnail = get_the_post_thumbnail_url($post->ID, $size = 'full');
                 echo '<meta name="thumbnail" content="' . $thumbnail . '">';
             }
         }
