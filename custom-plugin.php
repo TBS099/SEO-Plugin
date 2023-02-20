@@ -2,7 +2,7 @@
 //  Plugin Name: Custom SEO Meta
 //  Description: Plugin for a custom seo meta
 //  Author: Tanush Bikram Shah
-//  Version:1.0.0
+//  Version:1.8.0
 // Text Domain: Custom SEO Title and Description 
 
 if (!defined('ABSPATH')) {
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
         }
 
         // creating custom metabox field
-        function custom_metabox()
+         public function custom_metabox()
         {
             add_meta_box("custom_seo_metabox", "SEO Meta", array($this, "seo_metabox_field"), null, "side");
         }
